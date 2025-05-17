@@ -102,3 +102,55 @@ id	name|license_id|address_number|address_street_name|ssn|id|age|height|eye_colo
         SELECT value FROM solution;
 
 ¡Felicidades, encontraste al asesino! Pero espera, hay más... Si te sientes preparado para el reto, intenta consultar la transcripción de la entrevista del asesino para encontrar al verdadero villano detrás de este crimen. Si te sientes especialmente seguro con tus habilidades en SQL, intenta completar este último paso con un máximo de dos consultas. Usa la misma instrucción INSERT con tu nuevo sospechoso para comprobar tu respuesta.
+
+
+## plus:
+
+SELECT transcript
+FROM interview
+WHERE person_id = 67318;
+
+transcripción
+Me contrató una mujer con mucho dinero. No sé su nombre, pero sé que mide entre 1,65 y 1,70 m. Es pelirroja y conduce un Tesla Model S. Sé que asistió al concierto sinfónico de SQL tres veces en diciembre de 2017.
+
+
+SELECT *
+  FROM drivers_license
+  WHERE hair_color = 'red'
+  AND gender = 'female' AND car_make = 'Tesla' ;
+
+  id	age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
+202298	68	66	    green	    red	        female	500123	        Tesla	    Model S
+291182	65	66	    blue	    red	        female	08CM64	        Tesla	    Model S
+918773	48	65	    black	    red	        female	917UU3	        Tesla	    Model S
+
+SELECT person_id, COUNT(*) AS veces
+FROM facebook_event_checkin
+WHERE event_name = 'SQL Symphony Concert'
+  AND date BETWEEN 20171201 AND 20171231
+GROUP BY person_id
+HAVING COUNT(*) = 3;
+
+person_id	veces
+24556	    3
+99716	    3
+
+SELECT person.id AS person_id,
+       person.name,
+       drivers_license.*
+FROM person
+JOIN drivers_license ON person.license_id = drivers_license.id
+WHERE person.id IN (24556, 99716)
+  AND hair_color = 'red'
+  AND gender = 'female'
+  AND car_make = 'Tesla'
+  AND car_model = 'Model S';
+
+person_id	name	            id	    age	height	eye_color	hair_color	gender	plate_number	car_make	car_model
+99716	    Miranda Priestly	202298	68	66	    green	    red	        female	500123	        Tesla	    Model S
+
+INSERT INTO solution VALUES (1, 'Miranda Priestly');
+        
+        SELECT value FROM solution;
+
+¡Felicidades, encontraste al cerebro detrás del asesinato! En SQL City, todos te aclaman como el mejor detective de SQL de todos los tiempos. ¡Hora de descorchar el champán!
